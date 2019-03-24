@@ -11,7 +11,7 @@ import time
 import json
 
 
-def statusWF35():
+def statusWF():
     
     start_time = time.time()
 
@@ -51,7 +51,7 @@ def statusWF35():
         fp.write(prettyStepDetails)
         
         f.write("\n\n\n")
-        f.write("Progress Details of the WF35 in CDC:")
+        f.write("Progress Details of the WF in Datacenter XYZ:")
         
         status = os.popen("head -12 json.txt | grep -w 'status' | tr -d '\"'").read()
         f.write("\n\n")
@@ -78,12 +78,12 @@ def statusWF35():
         fp.close()
 
     ###Send EMails###
-    emailcmd = 'mail ' + '-s' + 'WF\ Current\ Status\ in\ CDC\ Z12\ @ $(date)' + ' xyz@xyz.com' + '<' + 'outfile.txt'
+    emailcmd = 'mail ' + '-s' + 'WF\ Current\ Status\ in\ DatacenterXYZ\ ZoneID\ @ $(date)' + ' xyz@xyz.com' + '<' + 'outfile.txt'
     sendmail = subprocess.Popen(emailcmd, shell=True)
-    #time.sleep(5)
-    #os.remove("outfile.txt")
+    time.sleep(5)
+    os.remove("outfile.txt")
     
-    print "--- Time taken to check WF35 status is %s seconds ---" % (time.time() - start_time)
+    print "--- Time taken to check WF status is %s seconds ---" % (time.time() - start_time)
 
 if __name__ == '__main__':
-    p1 = statusWF35()
+    p1 = statusWF()
