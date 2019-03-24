@@ -1,32 +1,32 @@
 #!/usr/bin/python
 
 '''
-Oracle Corp Sep, 2018
+Sep, 2018
+Written By Raju B
 '''
 
 import base64
 import urllib2
 import time
 import json
-import os, subprocess, socket, sys
-from email.mime.text import MIMEText
+
 
 def statusWF35():
     
     start_time = time.time()
 
     ###Credential Encoding###
-    user = 'dataloading'
-    passwd = '0at9i0!6l%Tt'
+    user = 'username'
+    passwd = 'password'
     base64string = base64.encodestring('%s:%s' % (user, passwd))[:-1]
 
     ###URI & Header details - Configurable###
-    url=r'https://datainternalservice1-datainternaldomain1.data.em2.oraclecloud.com/data/admin/curator/workflowinstance/1242/stepdetails' 
+    url=r'https://your-production-url.com/<your-rest-uri-path>/id/<endpoint>' 
     req=urllib2.Request(url)
     req.add_header("Authorization", "Basic %s" % base64string)
    
     ###EMail recipient###
-    emailrecipients = "raju.borkakoty@oracle.com, siddharth.mohapatra@oracle.com, rammohan.patel@oracle.com"
+    emailrecipients = "abc@abc.com, xyz@xyz.com, pqr@pqr.com"
     #outfile = 'wfOut.txt'
 
     ###REST call triggering and response parsing###
@@ -41,8 +41,8 @@ def statusWF35():
     ###Get Status and Write to File###
     with open('outfile.txt','a+') as f:
         wfStatus = data["currentStatus"]
-        print "Current status of the WF35 in CDC:", wfStatus
-        f.write('Current Status of Wf35:\t' + wfStatus)
+        print "Current status of the WF in Datacenter XYZ:", wfStatus
+        f.write('Current Status of WF:\t' + wfStatus)
 
         wfStepDetails = data["instanceSteps"]
         prettyStepDetails = json.dumps(wfStepDetails, sort_keys = True, indent = 6)
@@ -78,7 +78,7 @@ def statusWF35():
         fp.close()
 
     ###Send EMails###
-    emailcmd = 'mail ' + '-s' + 'WF35\ Current\ Status\ in\ CDC\ Z12\ @ $(date)' + ' raju.borkakoty@oracle.com' + '<' + 'outfile.txt'
+    emailcmd = 'mail ' + '-s' + 'WF\ Current\ Status\ in\ CDC\ Z12\ @ $(date)' + ' xyz@xyz.com' + '<' + 'outfile.txt'
     sendmail = subprocess.Popen(emailcmd, shell=True)
     #time.sleep(5)
     #os.remove("outfile.txt")
